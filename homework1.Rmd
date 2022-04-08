@@ -1,0 +1,95 @@
+---
+title: "homework1"
+author: "James(Changhwan) Han (3923257)"
+date: "4/3/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Q1. Define supervised and unsupervised learning. What are the differences between them?
+
+Supervised learning is a machine learning approach where the actual data Y is the supervisor, so the model needs observed output/input.
+Unsupervised learning uses machine learning algorithms to analyze unlabeled data sets. We learn without a supervisor in unsupervised learning.
+The main difference is supervised learning uses labeled input and output data while an unsupervised learning does not.
+
+Q2. Explain the difference between a regression model and a classification model, specifically in the context of machine learning.
+
+In regression, response Y is quantitative(numerical values) while in classification response Y is qualitative(categorical values). Logistic regression is considered a classification method but it can also be considered a regression method since it estimates class probabilities.
+
+Q3. Name two commonly used metrics for regression ML problems. Name two commonly used metrics for classification ML problems.
+
+Two commonly used metrics for regression ML problems are Mean Squared Error(MSE) and Root Mean Squared Error(RMSE).
+Two commonly used metrics for classification ML model are accuracy and confusion matrix.
+
+Q4. As discussed, statistical models can be used for different purposes. These purposes can generally be classified into the following three categories. Provide a brief description of each.
+
+- Descriptive models: The aim is to visually describes a trend in data by choosing right model. For example drawing a line on a scatterplot.
+- Inferential models: The aim is to state relationship between outcome and predictors. It also cares about which features are significant. 
+- Predictive models: The aim is to predict response Y with minimum reducible error and to determine what features fits the best. 
+
+Q5. Predictive models are frequently used in machine learning, and they can usually be described as either mechanistic or empirically-driven. Answer the following questions.
+
+-Define mechanistic. Define empirically-dirven. How do these model types differ? How are they similar?
+A mechanistic model uses a theory to predict what will happen in the real life while empirically-driven model(statistical model) studies real life events to develop a theory. Both models are similar in that they both aim to accurately predict the future and they differ in that one(mechanistic model) uses a theory while the other(empirically-driven model) aims to develop a theory.
+
+-In general, is a mechanistic or empirically-driven model easier to understand? 
+In general, mechanistic model is easier to understand because empirically-driven model is much more flexible by default and requires a larger number of observations.
+
+Q6. A political candidate's campaign has collected some detailed voter history data from their constituents. The campaign is interested in two questions: Classify each question as either predictive or inferential.
+
+-Given a voter's profile/data, how likely is it that they will vote in favor of the candidate?
+This is predictive because we aim to predict the future outcome(response) using a given voter's profile/data.
+
+-How would a voter's likelihood of support for the candidate change if they had personal contact with the candidate?
+This is inferential because there's no data to predict future outcomes and the aim is to see the change.(relationship between outcome and predictors)
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+Exercise 1:
+```{r}
+ggplot(mpg, aes(x=hwy)) + geom_histogram()
+```
+hwy from mpg is indicated on the x-axis and count is automatically indicated on the y-axis without calling it. We could observe how hwy-count is distributed through the histogram.
+
+Exercise 2:
+```{r}
+ggplot(mpg, aes(x=hwy, y=cty)) + geom_point()
+```
+We could assume there's a linear relationship between hwy and cty. Also,as hwy increases, cty increases.
+
+Exercise 3:
+```{r}
+
+ggplot(mpg, aes(x= forcats::fct_rev(forcats::fct_infreq(manufacturer)))) + geom_bar() + coord_flip()
+```
+Dodge produced the most cars and Lincoln produced the least cars.
+
+Exercise 4:
+```{r}
+mpg %>% 
+  mutate(cyl = factor(cyl)) %>% 
+  ggplot( aes(fill = cyl, y = hwy)) + geom_boxplot()
+```
+As cyl increases, hwy decreases. There are outliers for the lowest and higest value of cyl.
+
+Exercise 5:
+```{r}
+install.packages("corrplot",repos = "http://cran.us.r-project.org")
+# install.packages("corrplot")
+library(corrplot)
+
+L = cor(mpg %>% dplyr::select(where(is.numeric)))
+corrplot(L ,method ="number", type="lower")
+```
+In positive correlations, as one variable increases, another increases as well.
+Example of positive correlations are displ-year, displ-cyl, year-cyl, cty-hwy.
+On the other hand, in negative correlation, as one variable increases, another decreases. Example of negative correlations are displ-cty, displ-hwy, cyl-cty, cyl-hwy. The correlations between variables made sense for me, for example, it seems fair that as cty(city miles per gallon) increases, hwy(highway miles per gallon) increases. 
+
+
+
