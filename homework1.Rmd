@@ -65,7 +65,6 @@ We could assume there's a linear relationship between hwy and cty. Also,as hwy i
 
 Exercise 3:
 ```{r}
-
 ggplot(mpg, aes(x= forcats::fct_rev(forcats::fct_infreq(manufacturer)))) + geom_bar() + coord_flip()
 ```
 Dodge produced the most cars and Lincoln produced the least cars.
@@ -80,7 +79,7 @@ As cyl increases, hwy decreases. There are outliers for the lowest and higest va
 
 Exercise 5:
 ```{r}
-install.packages("corrplot",repos = "http://cran.us.r-project.org")
+# install.packages("corrplot",repos = "http://cran.us.r-project.org")
 # install.packages("corrplot")
 library(corrplot)
 
@@ -90,6 +89,30 @@ corrplot(L ,method ="number", type="lower")
 In positive correlations, as one variable increases, another increases as well.
 Example of positive correlations are displ-year, displ-cyl, year-cyl, cty-hwy.
 On the other hand, in negative correlation, as one variable increases, another decreases. Example of negative correlations are displ-cty, displ-hwy, cyl-cty, cyl-hwy. The correlations between variables made sense for me, for example, it seems fair that as cty(city miles per gallon) increases, hwy(highway miles per gallon) increases. 
+
+Exercise 6:
+```{r}
+# install.packages('ggthemes', repos = "http://cran.us.r-project.org")
+library(ggthemes)
+library(ggplot2)
+
+ggplot(mpg, aes(x = hwy, y = class)) +
+geom_boxplot() +
+labs(x = 'Highway MPG', y = 'Vehicle Class') +
+theme_economist_white(gray_bg = FALSE) +
+geom_jitter(color = "grey", size = 0.7, alpha = 1) + theme(panel.grid.major.x = element_line(colour = 'grey'))
+ggplot(mpg, aes(x = hwy, y = class)) + geom_jitter(color = 'grey', size = 0.7, alpha = 1) + geom_boxplot() + labs(x = 'Highway MPG', y = 'Veichle Class') + theme(panel.grid.major = element_line(colour = 'grey')) + theme(panel.background = element_rect(fill = "white", colour = "grey50")) + theme(panel.border = element_rect(colour = 'white', fill = NA)) + theme(axis.ticks = element_blank()) + theme(axis.line.x = element_line(size = 1, colour = "black"))
+```
+
+Exercise 7:
+```{r}
+ggplot(mpg, aes(x = class, y = hwy, fill = drv)) + geom_boxplot()
+```
+
+Exercise 8:
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + geom_point() + geom_smooth(aes(linetype = drv), color = 'blue', se = FALSE)
+```
 
 
 
